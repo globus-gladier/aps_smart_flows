@@ -36,7 +36,7 @@ def run_flow(**kwargs):
         "msgs": [],
         "keys": [new_key],
         "filters": [
-            {'Pattern': {'key': new_key}}
+            {'Pattern': {'keys': new_key}}
         ],
         "compute_endpoint":"36d0b3c2-47a8-4465-8742-8296dc266b0b"
         }
