@@ -1,7 +1,10 @@
+"""Example of a simple function"""
+
 from gladier import GladierBaseTool, generate_flow_definition
 
 
 def simple_function(wfile=None, text=None, **data):
+    """Simple function"""
     import os
 
     if "~" in wfile:
@@ -15,5 +18,7 @@ def simple_function(wfile=None, text=None, **data):
 
 @generate_flow_definition
 class SimpleTool(GladierBaseTool):
+    """Simple Gladier tool"""
+
     compute_functions = [simple_function]
     required_input = ["wfile", "name", "compute_endpoint"]

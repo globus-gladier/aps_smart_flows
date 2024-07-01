@@ -1,65 +1,36 @@
 #!/usr/bin/env python
 
-##Basic Python import's
+"""Simple Example for Smart Flows"""
+
 import argparse
 from pprint import pprint
 
-##Base Gladier imports
-from gladier import GladierBaseClient, generate_flow_definition
-from gladier_tools.globus.transfer import Transfer
-from gladier_tools.publish import Publish
-from tools.gather_metadata import GatherMetadata
-
-##Import tools that will be used on the flow definition
-from tools.simple_compute_tool import SimpleTool
+from gladier import FlowsManager, GladierBaseClient, generate_flow_definition
+from gladier_tools.diaspora import Diaspora_Produce_Event
 
 
-##Generate flow based on the collection of `gladier_tools`
-@generate_flow_definition(
-    modifiers={
-        "publish_gather_metadata": {
-            "WaitTime": 240,
-            "payload": "$.GatherMetadata.details.result[0].pilot",
-        },
-    }
-)
-class Example_Client(GladierBaseClient):
-    gladier_tools = [Transfer, SimpleTool, GatherMetadata, Publish]
+@generate_flow_definition()
+class Diaspora_Example_Client(GladierBaseClient):
+    """"""
+
+    gladier_tools = [Diaspora_Produce_Event]
 
 
-## Main client
-def run_flow(event):
-    ##The first step Client instance
-    exampleClient = Example_Client()
-    print("Flow created with ID: " + exampleClient.get_flow_id())
-    print("https://app.globus.org/flows/" + exampleClient.get_flow_id())
-    print("")
 
-    ## Flow inputs necessary for each tool on the flow definition.
-    flow_input = {
-        "input": {
-            # Transfer variables
-            "transfer_source_endpoint_id": "",
-            "transfer_source_path": "",
-            "transfer_destination_endpoint_id": "",
-            "transfer_destination_path": "",
-            "transfer_recursive": True,
-            # Proccess variables
-            "name": args.name,
-            "wfile": "/test/test.txt",
-            # Globus Compute tutorial endpoint
-            "compute_endpoint": "4b116d3c-1703-4f8f-9f6f-39921e5864df",
-            "pilot": {},
-        }
-    }
+def run_flow(**kwargs):
+    """"""
+    fm = FlowsManager()
+    fm.sync_flow()
+    exampleClient = Diaspora_Example_Client(flows_manager=fm)
+    exampleClient.get_flow_id()
+    exampleClient.login()
+
+    flow_input = {"input": {"topic": "potato", "msgs": "baked"}}
     print("Created payload.")
     pprint(flow_input)
     print("")
 
-    ##Label for the current run (This is the label that will be presented on the globus webApp)
-    client_run_label = "Gladier SingleTool Example"
-
-    ##Flow execution
+    client_run_label = "Smart Flows Example"
     flow_run = exampleClient.run_flow(flow_input=flow_input, label=client_run_label)
 
     print("Run started with ID: " + flow_run["action_id"])
@@ -68,6 +39,7 @@ def run_flow(event):
 
 ##  Arguments for the execution of this file as a stand-alone client
 def arg_parse():
+    """Argument Parser for Smart Flows"""
     parser = argparse.ArgumentParser()
     parser.add_argument("--name", help="User Name", default="Bob")
     return parser.parse_args()
@@ -76,4 +48,4 @@ def arg_parse():
 ## Main execution of this "file" as a Standalone client
 if __name__ == "__main__":
     args = arg_parse()
-    run_flow(args.name)
+    run_flow(name=args.name)
