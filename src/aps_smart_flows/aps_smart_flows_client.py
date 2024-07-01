@@ -6,8 +6,8 @@ import argparse
 from pprint import pprint
 
 from gladier import FlowsManager, GladierBaseClient, generate_flow_definition
-from gladier_tools.diaspora import Diaspora_Produce_Event
-
+from tools.produce_event import Diaspora_Produce_Event
+from tools.consume_event import Diaspora_Consume_Event 
 
 @generate_flow_definition()
 class Diaspora_Example_Client(GladierBaseClient):
@@ -19,9 +19,7 @@ class Diaspora_Example_Client(GladierBaseClient):
 
 def run_flow(**kwargs):
     """"""
-    fm = FlowsManager()
-    fm.sync_flow()
-    exampleClient = Diaspora_Example_Client(flows_manager=fm)
+    exampleClient = Diaspora_Example_Client()
     exampleClient.get_flow_id()
     exampleClient.login()
 
