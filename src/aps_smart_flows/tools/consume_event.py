@@ -6,18 +6,20 @@ class Diaspora_Consume_Event(GladierBaseTool):
     """"""
 
     flow_definition = {
-    'Comment': 'Publish messages to Diaspora Event Fabric',
-    'StartAt': 'PublishMessages',
+    'Comment': 'Consume and wait messages to Diaspora Event Fabric',
+    'StartAt': 'ConsumeMessages',
     'States': {
-        'PublishMessages': {
-            'Comment': 'Send messages to a specified topic in Diaspora',
+        'ConsumeMessages': {
+            'Comment': 'reads messages to a specified topic in Diaspora',
             'Type': 'Action',
             'ActionUrl': 'https://diaspora-action-provider.ml22sevubfnks.us-east-1.cs.amazonlightsail.com/',
             'Parameters': {
-                'action.$': 'consume',
+                'action': 'consume',
                 'topic.$': '$.input.topic',
+                'keys.$': '$.input.keys',
+                'filters.$': '$.input.filters',
             },
-            'ResultPath': '$.PublishMessages',
+            'ResultPath': '$.ConsumeMessages',
             'End': True,
         },
     },

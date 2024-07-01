@@ -14,9 +14,10 @@ class Diaspora_Produce_Event(GladierBaseTool):
             'Type': 'Action',
             'ActionUrl': 'https://diaspora-action-provider.ml22sevubfnks.us-east-1.cs.amazonlightsail.com/',
             'Parameters': {
-                'action.$': 'produce',
+                'action': 'produce',
                 'topic.$': '$.input.topic',
-                'msgs.$': '$.input.msgs',
+                'keys.$': '$.input.keys',
+                'msgs.$': '$.Getsysteminfo.details.result[0]',
             },
             'ResultPath': '$.PublishMessages',
             'End': True,

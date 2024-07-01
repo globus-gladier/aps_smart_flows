@@ -4,34 +4,52 @@
 
 import argparse
 from pprint import pprint
-
+import uuid
 from gladier import FlowsManager, GladierBaseClient, generate_flow_definition
 from tools.produce_event import Diaspora_Produce_Event
 from tools.consume_event import Diaspora_Consume_Event 
+from tools.sys_info_tool import SysInfoTool
 
 @generate_flow_definition()
-class Diaspora_Example_Client(GladierBaseClient):
+class ProduceClient(GladierBaseClient):
     """"""
+    gladier_tools = [SysInfoTool, Diaspora_Produce_Event]
 
-    gladier_tools = [Diaspora_Produce_Event]
+@generate_flow_definition()
+class ConsumeClient(GladierBaseClient):
+    """"""
+    gladier_tools = [Diaspora_Consume_Event]
 
-
+def generate_unique_key():
+    """"""
+    return str(uuid.uuid4())
 
 def run_flow(**kwargs):
     """"""
-    exampleClient = Diaspora_Example_Client()
-    exampleClient.get_flow_id()
-    exampleClient.login()
+    ClientFlow1 = ProduceClient()
+    pprint(ClientFlow1.get_flow_definition())
+    ClientFlowConsumer = ConsumeClient()
 
-    flow_input = {"input": {"topic": "potato", "msgs": "baked"}}
+    new_key = generate_unique_key()
+    flow_input = {"input": {
+        "topic": "topic7b385f033313",
+        "msgs": [],
+        "keys": [new_key],
+        "filters": [
+            {'Pattern': {'key': new_key}}
+        ],
+        "compute_endpoint":"36d0b3c2-47a8-4465-8742-8296dc266b0b"
+        }
+    }
+
     print("Created payload.")
     pprint(flow_input)
     print("")
 
-    client_run_label = "Smart Flows Example"
-    flow_run = exampleClient.run_flow(flow_input=flow_input, label=client_run_label)
+    flow_run = ClientFlow1.run_flow(flow_input=flow_input, label="Smart Flows Trigger")
+    print("https://app.globus.org/runs/" + flow_run["action_id"])
 
-    print("Run started with ID: " + flow_run["action_id"])
+    flow_run = ClientFlowConsumer.run_flow(flow_input=flow_input, label="Smart Flows Consumer")
     print("https://app.globus.org/runs/" + flow_run["action_id"])
 
 
