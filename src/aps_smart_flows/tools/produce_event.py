@@ -8,8 +8,25 @@ class Diaspora_Produce_Event(GladierBaseTool):
 
     flow_definition = {
         "Comment": "Publish messages to Diaspora Event Fabric",
-        "StartAt": "PublishMessages",
+        "StartAt": "MergeResult",
         "States": {
+            "MergeResult":{
+                "Comment": "This adds custom result to the message",
+                "Type": "Pass",
+                "Result" : {
+                    "input.msgs[0].sys_info": "$.Getsysteminfo.details.result[0].msgs",
+                },
+                "ResultPath": "$.input",
+                "Next": "GatherFlowInfo",
+            },
+            "GatherFlowInfo":{
+                "Type": "Pass",
+                "Result": {
+                    "input.msgs[0].flow_run_id": "$._context.run_id"
+                },
+                "ResultPath": "$.input",
+                "Next": "PublishMessages",
+            },
             "PublishMessages": {
                 "Comment": "Send messages to a specified topic in Diaspora",
                 "Type": "Action",
@@ -17,7 +34,7 @@ class Diaspora_Produce_Event(GladierBaseTool):
                 "Parameters": {
                     "action": "produce",
                     "topic.$": "$.input.topic",
-                    "msgs.$": "$.Getsysteminfo.details.result[0].msgs",
+                    "msgs.$": "$.input.msgs",
                 },
                 "ResultPath": "$.PublishMessages",
                 "End": True,
