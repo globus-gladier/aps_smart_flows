@@ -55,11 +55,7 @@ def run_flow(**kwargs):
             # better way to increase support
             #events = [topic+value+keys] or single
             "topic": "topic7b385f033313",
-            "msgs": [{"smartkey": new_key}],
-            "filters": [
-                {"Pattern": {"value": {"smartkey": [{"prefix": str(new_key[0:5])}]}}},
-            ],  ##bug here but it works
-            ##
+            "msgs": [{"smartkey": new_key}]
         }
     }
 
@@ -75,6 +71,10 @@ def run_flow(**kwargs):
 
     ##Gather list of "trigger flows" for wait
     trigger_id = flow_run["action_id"]
+    flow_input['input']['filters'] =[
+                {"Pattern": {"value": {"smartkey": [{"prefix": str(new_key[0:5])}]}}},
+            ]  ##bug here but it works
+            ##
     print(trigger_id)
 
     ##This flow will wait for all the flows on trigger flows
