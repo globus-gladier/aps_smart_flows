@@ -13,17 +13,13 @@ class Diaspora_Produce_Event(GladierBaseTool):
             "MergeResult":{
                 "Comment": "This adds custom result to the message",
                 "Type": "Pass",
-                "Parameters":{
-                    "sys_info.$": "$.Getsysteminfo.details.result[0]",
-                },
+                "InputPath": "$.Getsysteminfo.details.result[0]",
                 "ResultPath": "$.input.msgs[0].sys_info",
                 "Next": "GatherFlowInfo",
             },
             "GatherFlowInfo":{
                 "Type": "Pass",
-                "Parameters": {
-                    "flow_run_id.$": "$._context.run_id"
-                },
+                "InputPath": "$._context.run_id",
                 "ResultPath": "$.input.msgs[0].flow_run_id",
                 "Next": "PublishMessages",
             },

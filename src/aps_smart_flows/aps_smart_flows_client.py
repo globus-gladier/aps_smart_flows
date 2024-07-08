@@ -51,11 +51,8 @@ def run_flow(**kwargs):
             ##compute bits
             "compute_endpoint": "36d0b3c2-47a8-4465-8742-8296dc266b0b",
             "wait_time": 15,
-            ##Diaspora bits
-            # better way to increase support
-            #events = [topic+value+keys] or single
             "topic": "topic7b385f033313",
-            "msgs": [{"smartkey": new_key}]
+            "msgs": [{}]
         }
     }
 
@@ -72,7 +69,7 @@ def run_flow(**kwargs):
     ##Gather list of "trigger flows" for wait
     trigger_id = flow_run["action_id"]
     flow_input['input']['filters'] =[
-                {"Pattern": {"value": {"smartkey": [{"prefix": str(new_key[0:5])}]}}},
+                {"Pattern": {"value": {"flow_run_id": [{"prefix": str(trigger_id[0:5])}]}}},
             ]  ##bug here but it works
             ##
     print(trigger_id)

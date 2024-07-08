@@ -6,8 +6,6 @@ from gladier import GladierBaseTool, generate_flow_definition
 def getSystemInfo(**data):
     """"""
     import platform, socket, re, uuid, psutil  # noqa
-    from copy import deepcopy
-
     new_data = {}
     new_data["platform"] = platform.system()
     new_data["platform-release"] = platform.release()
