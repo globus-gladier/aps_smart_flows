@@ -8,18 +8,18 @@ def getSystemInfo(**data):
     import platform, socket, re, uuid, psutil  # noqa
     from copy import deepcopy
 
-    new_data = deepcopy(data)
-    new_data["msgs"][0]["platform"] = platform.system()
-    new_data["msgs"][0]["platform-release"] = platform.release()
-    new_data["msgs"][0]["platform-version"] = platform.version()
-    new_data["msgs"][0]["architecture"] = platform.machine()
-    new_data["msgs"][0]["hostname"] = socket.gethostname()
-    new_data["msgs"][0]["ip-address"] = socket.gethostbyname(socket.gethostname())
-    new_data["msgs"][0]["mac-address"] = ":".join(
+    new_data = {}
+    new_data["platform"] = platform.system()
+    new_data["platform-release"] = platform.release()
+    new_data["platform-version"] = platform.version()
+    new_data["architecture"] = platform.machine()
+    new_data["hostname"] = socket.gethostname()
+    new_data["ip-address"] = socket.gethostbyname(socket.gethostname())
+    new_data["mac-address"] = ":".join(
         re.findall("..", "%012x" % uuid.getnode())
     )
-    new_data["msgs"][0]["processor"] = platform.processor()
-    new_data["msgs"][0]["ram"] = (
+    new_data["processor"] = platform.processor()
+    new_data["ram"] = (
         str(round(psutil.virtual_memory().total / (1024.0**3))) + " GB"
     )
 

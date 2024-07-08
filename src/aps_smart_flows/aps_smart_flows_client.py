@@ -75,6 +75,7 @@ def run_flow(**kwargs):
 
     ##Gather list of "trigger flows" for wait
     trigger_id = flow_run["action_id"]
+    print(trigger_id)
 
     ##This flow will wait for all the flows on trigger flows
     flow_run = ClientFlowConsumer.run_flow(
