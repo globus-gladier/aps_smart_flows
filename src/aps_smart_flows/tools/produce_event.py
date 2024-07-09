@@ -10,22 +10,20 @@ class Diaspora_Produce_Event(GladierBaseTool):
         "Comment": "Publish messages to Diaspora Event Fabric",
         "StartAt": "GatherFlowInfo",
         "States": {
-                "GatherFlowInfo":{
+            "GatherFlowInfo": {
                 "Type": "Pass",
-                "Parameters": {
-                    "flow_run_id.$": "$._context.run_id"
-                },
+                "Parameters": {"flow_run_id.$": "$._context.run_id"},
                 "ResultPath": "$.input.context",
                 "Next": "MergeFlowInfo",
             },
-            "MergeFlowInfo":{
+            "MergeFlowInfo": {
                 "Comment": "This adds custom result to the message",
                 "Type": "Pass",
                 "InputPath": "$.input.context.flow_run_id",
                 "ResultPath": "$.input.msgs[0].flow_run_id",
                 "Next": "MergeResult",
             },
-            "MergeResult":{
+            "MergeResult": {
                 "Comment": "This adds custom result to the message",
                 "Type": "Pass",
                 "InputPath": "$.Getsysteminfo.details.result[0]",

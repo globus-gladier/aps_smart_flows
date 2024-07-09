@@ -13,7 +13,7 @@ from tools.sys_info_tool import SysInfoTool
 
 
 @generate_flow_definition(
-    #output of  sysinfo >> input of diaspora
+    # output of  sysinfo >> input of diaspora
 )
 class ProduceClient(GladierBaseClient):
     """"""
@@ -32,13 +32,16 @@ def generate_unique_key():
     """"""
     return str(uuid.uuid4())
 
+
 def create_new_topic():
     """"""
     pass
 
+
 def create_flow_control_topic():
     """"""
     pass
+
 
 def run_flow(**kwargs):
     """"""
@@ -52,7 +55,7 @@ def run_flow(**kwargs):
             "compute_endpoint": "36d0b3c2-47a8-4465-8742-8296dc266b0b",
             "wait_time": 15,
             "topic": "topic7b385f033313",
-            "msgs": [{}]
+            "msgs": [{}],
         }
     }
 
@@ -68,10 +71,10 @@ def run_flow(**kwargs):
 
     ##Gather list of "trigger flows" for wait
     trigger_id = flow_run["action_id"]
-    flow_input['input']['filters'] =[
-                {"Pattern": {"value": {"flow_run_id": [{"prefix": str(trigger_id[0:5])}]}}},
-            ]  ##bug here but it works
-            ##
+    flow_input["input"]["filters"] = [
+        {"Pattern": {"value": {"flow_run_id": [{"prefix": str(trigger_id[0:5])}]}}},
+    ]  ##bug here but it works
+    ##
     print(trigger_id)
 
     ##This flow will wait for all the flows on trigger flows
