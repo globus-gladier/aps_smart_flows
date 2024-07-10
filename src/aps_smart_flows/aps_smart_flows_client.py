@@ -20,7 +20,7 @@ GLOBUS_GROUP = "0bbe98ef-de8f-11eb-9e93-3db9c47b68ba"
 class ProduceClient(GladierBaseClient):
     """"""
 
-    globus_group = [GLOBUS_GROUP]
+    globus_group = GLOBUS_GROUP
     gladier_tools = [SysInfoTool, Diaspora_Produce_Event]
 
 
@@ -28,7 +28,7 @@ class ProduceClient(GladierBaseClient):
 class ConsumeClient(GladierBaseClient):
     """"""
 
-    globus_group = [GLOBUS_GROUP]
+    globus_group = GLOBUS_GROUP
     gladier_tools = [SleepTool, Diaspora_Consume_Event]
 
 
