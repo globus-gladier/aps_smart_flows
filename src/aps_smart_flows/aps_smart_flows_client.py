@@ -15,7 +15,7 @@ from tools.sys_info_tool import SysInfoTool
 ##EDIT HERE
 TOPIC_NAME = "aps_smart_flow"
 GLOBUS_GROUP = "0bbe98ef-de8f-11eb-9e93-3db9c47b68ba"
-LOCAL_COMPUTE = "36d0b3c2-47a8-4465-8742-8296dc266b0b"
+COMPUTE_ENDPOINT = "4b116d3c-1703-4f8f-9f6f-39921e5864df"
 ##
 @generate_flow_definition()
 class ProduceClient(GladierBaseClient):
@@ -51,7 +51,7 @@ def run_flow(**kwargs):
     flow_input = {
         "input": {
             ##compute bits
-            "compute_endpoint": LOCAL_COMPUTE,
+            "compute_endpoint": COMPUTE_ENDPOINT,
             "wait_time": 15,
             "topic": TOPIC_NAME,
             "msgs": [{"smartkey": new_key}],
@@ -64,7 +64,7 @@ def run_flow(**kwargs):
 
     ###Trigger flow
     flow_run = ClientFlow1.run_flow(
-        flow_input=flow_input, label="Smart Flows Trigger: " + new_key[0:5]
+        flow_input=flow_input, label="Smart Flows Producer: " + new_key[0:5]
     )
     print("https://app.globus.org/runs/" + flow_run["action_id"] + "/logs")
 
