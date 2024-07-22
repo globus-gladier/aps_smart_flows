@@ -12,10 +12,11 @@ from tools.produce_event import Diaspora_Produce_Event
 from tools.sleep_tool import SleepTool
 from tools.sys_info_tool import SysInfoTool
 
+##EDIT HERE
 TOPIC_NAME = "aps_smart_flow"
 GLOBUS_GROUP = "0bbe98ef-de8f-11eb-9e93-3db9c47b68ba"
-
-
+LOCAL_COMPUTE = "36d0b3c2-47a8-4465-8742-8296dc266b0b"
+##
 @generate_flow_definition()
 class ProduceClient(GladierBaseClient):
     """"""
@@ -50,7 +51,7 @@ def run_flow(**kwargs):
     flow_input = {
         "input": {
             ##compute bits
-            "compute_endpoint": "36d0b3c2-47a8-4465-8742-8296dc266b0b",
+            "compute_endpoint": LOCAL_COMPUTE,
             "wait_time": 15,
             "topic": TOPIC_NAME,
             "msgs": [{"smartkey": new_key}],
